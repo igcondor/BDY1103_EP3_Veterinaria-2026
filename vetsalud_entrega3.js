@@ -1,17 +1,18 @@
 // 1. BD Y CREACIÓN DE COLECCIONES
-// Seleccionamos la base de datos "vetsalud_mongo"
-db.dropDatabase();
-db = db.getSiblingDB("vetsalud_mongo");
 
-print(" Base de datos 'vetsalud_mongo' (checkpoint 1, creacion bd)");
+// Eliminamos la base de datos "vetsalud_mongo" si existe para evitar problemas
+db.dropDatabase();
+// Seleccionamos la base de datos "vetsalud_mongo"
+db = db.getSiblingDB("vetsalud_mongo");
+print(" Base de datos 'vetsalud_mongo' (checkpoint 1 creacion bd)");
 
 
 // PENDIENTE, COMENTAR USO  DE CADA COLECCION
-db.createCollection("propietarios");    // 
-db.createCollection("mascotas");        // 
-db.createCollection("veterinarios");    // 
-db.createCollection("atenciones");      // 
-db.createCollection("vacunaciones");    // 
+db.createCollection("propietarios");    // Almacena información de contacto e identificación sobre los propietarios de las mascotas
+db.createCollection("mascotas");        // Almacena las características de e ID de su propietario
+db.createCollection("veterinarios");    // Almacena información de identificación y contacto sobre los veterinarios y su especialidad
+db.createCollection("atenciones");      // Almacena información de las atenciones a las mascotas, incluyendo el veterinario que la atendió, motivo y el diagnóstico
+db.createCollection("vacunaciones");    // Almacena información sobre las vacunaciones aplicadas a las mascotas y las fechas.
 db.createCollection("pagos");           // 
 db.createCollection("trabajadores");    // 
 db.createCollection("tratamientos");    // 
@@ -268,3 +269,5 @@ db.trabajadores.insertMany([
 ]);
 
 print("--- Inserción de datos iniciales completada ---");
+
+// 3. Operaciones de Lectura en MongoDB
