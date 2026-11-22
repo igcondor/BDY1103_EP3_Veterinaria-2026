@@ -6,19 +6,17 @@ db.dropDatabase();
 db = db.getSiblingDB("vetsalud_mongo");
 print(" Base de datos 'vetsalud_mongo' (checkpoint 1 creacion bd)");
 
-
-// PENDIENTE, COMENTAR USO  DE CADA COLECCION
-db.createCollection("propietarios");    // Almacena información de contacto e identificación sobre los propietarios de las mascotas
-db.createCollection("mascotas");        // Almacena las características de e ID de su propietario
-db.createCollection("veterinarios");    // Almacena información de identificación y contacto sobre los veterinarios y su especialidad
-db.createCollection("atenciones");      // Almacena información de las atenciones a las mascotas, incluyendo el veterinario que la atendió, motivo y el diagnóstico
-db.createCollection("vacunaciones");    // Almacena información sobre las vacunaciones aplicadas a las mascotas y las fechas.
-db.createCollection("pagos");           // 
-db.createCollection("trabajadores");    // 
-db.createCollection("tratamientos");    // 
-db.createCollection("medicamentos");    // 
-db.createCollection("servicios");       // 
-db.createCollection("especialidades");  // 
+db.createCollection("propietarios");    // Se usa para almacenar la info personal de los clientes/dueños de mascotas de la veterinaria
+db.createCollection("mascotas");        // Se usa para mantener un registro de las mascotas antendidas en la veterinaria
+db.createCollection("veterinarios");    // Se usa para mantener el registro de los veterinarios asociados
+db.createCollection("atenciones");      // Se utilizará para llevar constancia de las atenciones realizadas a las mascotas
+db.createCollection("vacunaciones");    // Se utiliza para manenter el control de las vacunas aplicables a las mascotas
+db.createCollection("pagos");           // Registro de pagos realizados por los propietarios a la clinica
+db.createCollection("trabajadores");    // Trabajadores no veterinarios
+db.createCollection("tratamientos");    // Se usa para mantener el registro de los tratamientos aplicados a las mascotas
+db.createCollection("medicamentos");    // Medicamentos disponibles en la veterinaria
+db.createCollection("servicios");       // Procedimientos medicos realizables en las mascotas y su coste asociado
+db.createCollection("especialidades");  // Especialidades de los veterinarios y su descripcion
 
 print("Se crean las colecciones (checkpoint 2, creacion colecciones)");
 
@@ -255,19 +253,66 @@ db.trabajadores.insertOne({
 });
 
 db.trabajadores.insertMany([
-  { id_trabajador: 2, nombre: "Pedro", apellido: "Diaz",        cargo: "Veterinario", sueldo: 1250000 },
-  { id_trabajador: 3, nombre: "Jorge", apellido: "Rodriguez",   cargo: "Veterinario", sueldo: 1200000 },
-  { id_trabajador: 4, nombre: "Marcela", apellido: "Soto",      cargo: "Veterinario General", sueldo: 1150000 },
-  { id_trabajador: 5, nombre: "Carlos", apellido: "Silva",      cargo: "Cirujano Jefe", sueldo: 1800000 },
-  { id_trabajador: 6, nombre: "Andres", apellido: "Martinez",   cargo: "Especialista Dermatología", sueldo: 1600000 },
-  { id_trabajador: 7, nombre: "Rodrigo", apellido: "Sepulveda", cargo: "Especialista Cardiología", sueldo: 1700000 },
-  { id_trabajador: 8, nombre: "Manuel", apellido: "Morales",    cargo: "Especialista Oncología", sueldo: 1750000 },
-  { id_trabajador: 9, nombre: "Camila", apellido: "Fernandez",  cargo: "Recepcionista", sueldo: 550000 },
-  { id_trabajador: 10, nombre: "Diego", apellido: "Araya",      cargo: "Asistente Veterinario", sueldo: 650000 },
-  { id_trabajador: 11, nombre: "Sofia", apellido: "Castro",     cargo: "Administrador de Clínica", sueldo: 1400000 },
-  { id_trabajador: 12, nombre: "Gabriel", apellido: "Navarro",  cargo: "Peluquero Canino / Técnico", sueldo: 600000 }
+  { id_trabajador: 2, nombre: "Pedro",    apellido: "Diaz",       cargo: "Veterinario",                 sueldo: 1250000},
+  { id_trabajador: 3, nombre: "Jorge",    apellido: "Rodriguez",  cargo: "Veterinario",                 sueldo: 1200000},
+  { id_trabajador: 4, nombre: "Marcela",  apellido: "Soto",       cargo: "Veterinario General",         sueldo: 1150000},
+  { id_trabajador: 5, nombre: "Carlos",   apellido: "Silva",      cargo: "Cirujano Jefe",               sueldo: 1800000},
+  { id_trabajador: 6, nombre: "Andres",   apellido: "Martinez",   cargo: "Especialista Dermatología",   sueldo: 1600000},
+  { id_trabajador: 7, nombre: "Rodrigo",  apellido: "Sepulveda",  cargo: "Especialista Cardiología",    sueldo: 1700000},
+  { id_trabajador: 8, nombre: "Manuel",   apellido: "Morales",    cargo: "Especialista Oncología",      sueldo: 1750000},
+  { id_trabajador: 9, nombre: "Camila",   apellido: "Fernandez",  cargo: "Recepcionista",               sueldo: 550000 },
+  { id_trabajador: 10, nombre: "Diego",   apellido: "Araya",      cargo: "Asistente Veterinario",       sueldo: 650000 },
+  { id_trabajador: 11, nombre: "Sofia",   apellido: "Castro",     cargo: "Administrador de Clínica",    sueldo: 1400000},
+  { id_trabajador: 12, nombre: "Gabriel", apellido: "Navarro",    cargo: "Peluquero Canino / Técnico",  sueldo: 600000 }
 ]);
 
 print("--- Inserción de datos iniciales completada ---");
 
-// 3. Operaciones de Lectura en MongoDB
+
+// 3. CONSULTAS (CONDORE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 4. UPDATES
+
+// 1/3
+// Actualizacion de telefono y correo del propietario con el id 2
+db.propietarios.updateOne({ id_propietario: 2 },
+  {$set: {
+      telefono: "+56999887766",
+      correo: "pedro.munoz.nuevo@gmail.com"
+    }
+  }
+);
+
+// 2/3
+// Cambio de peso del gato de id 8 a 20kg
+db.mascotas.updateOne({ id_mascota: 8 },
+  {$set: {
+      peso: 20.00
+    }
+  }
+);
+
+// 3/3
+// Cambio de estado de todos los gatos a "FALLECIDO"
+db.mascotas.updateMany({ especie: "GATO" },
+  {$set: {
+      estado: "FALLECIDO"
+    }
+  }
+);
