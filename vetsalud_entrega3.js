@@ -1,9 +1,10 @@
 // 1. BD Y CREACIÓN DE COLECCIONES
 
-// Eliminamos la base de datos "vetsalud_mongo" si existe para evitar problemas
-db.dropDatabase();
+
 // Seleccionamos la base de datos "vetsalud_mongo"
 db = db.getSiblingDB("vetsalud_mongo");
+// Eliminamos la base de datos "vetsalud_mongo" si existe para evitar problemas
+db.dropDatabase();
 print(" Base de datos 'vetsalud_mongo' (checkpoint 1 creacion bd)");
 
 db.createCollection("propietarios");    // Se usa para almacenar la info personal de los clientes/dueños de mascotas de la veterinaria
@@ -269,20 +270,21 @@ db.trabajadores.insertMany([
 print("--- Inserción de datos iniciales completada ---");
 
 
-// 3. CONSULTAS (CONDORE)
+// 3. Operaciones de Lectura en MongoDB
 
 //Consulta 1: busca todas las mascotas registradas en la veterinaria [basica]
 print("\n--- Consulta 1: Todas las mascotas del sistema UwU ---");
 printjson(db.mascotas.find().toArray());
 
-// Consulta 2: busca  todas las mascotas  del propietario 4 muestrando solo nombre y raza [projection nomas]
+// Consulta 2: busca  todas las mascotas  del propietario 4 mostrando solo 
+// id, nombre, especie, peso, estado [projection nomas]
 print("\n--- Consulta 2: Mascotas del propietario 4 (solo nombre y raza) ---");
 printjson(db.mascotas.find({ id_propietario: 4}, { _id:1, nombre:1, especie:1, peso:1, estado:1 }).toArray());
 
 
 // Consulta 3: primer propietario llamado Pedro Muñoz muestra el id, telefono y correo [FIND ONE projection]
 print("\n--- Consulta 3: propietario Pedro Muñoz (datos personales)---");
-printjson(db.propietarios.findOne({ nombre: "Pedro", apellido: "Muñoz" },{ _id: 1, telefono: 1, correo: 1 }).toArray());
+printjson(db.propietarios.findOne({ nombre: "Pedro", apellido: "Muñoz" },{ _id: 1, telefono: 1, correo: 1 }));
 
 // Consulta 4: mascotas hospitalizadas o en tratamiento (id, propietario y estado) [filtro y projection]
 print("\n--- Consulta 4: mascotas HOSPITALIZADO o TRATAMIENTO ---");
@@ -300,32 +302,47 @@ printjson(db.servicios.find({ valor: { $gt: 30000 } },{ _id: 1, nombre_servicio:
 
 
 
-// 4. UPDATES
+// 4. Operaciones de Actualización en MongoDB
 
-// 1/3
-// Actualizacion de telefono y correo del propietario con el id 2
-db.propietarios.updateOne({ _id: 2 },
-  {$set: {
-      telefono: "+56999887766",
-      correo: "pedro.munoz.nuevo@gmail.com"
-    }
-  }
-);
+// ------------------------------------------------------------
+// Update 1/3: Simba (mascota 8, del propietario 4) comio compulsivamente y subio de peso
+// ahora quedó hospitalizado de urgencia. 
+// -------------------------------------------------------------
+print("\n--- Update 1: peso y estado de mascota 8 ---");
 
-// 2/3
-// Cambio de peso del gato de id 8 a 20kg
-db.mascotas.updateOne({ _id: 8 },
-  {$set: {
-      peso: 20.00
-    }
-  }
-);
+print("ANTES:");
+printjson(db.mascotas.findOne({ _id: 8 }, { nombre: 1, id_propietario: 1, peso: 1, estado: 1 })); 
 
-// 3/3
-// Cambio de estado de todos los gatos a "FALLECIDO"
-db.mascotas.updateMany({ especie: "GATO" },
-  {$set: {
-      estado: "FALLECIDO"
-    }
-  }
-);
+db.mascotas.updateOne({ _id: 8 },{ $set: { peso: 20.00, estado: "HOSPITALIZADO"}});
+
+print("DESPUES:");
+printjson(db.mascotas.findOne({ _id: 8 }, { nombre: 1, id_propietario: 1, peso: 1, estado: 1 }));
+
+
+
+// -------------------------------------------------------------
+// Update 2/3: propietario 2(Pedro Muñoz) cambia su telefono y correo
+// --------------------------------------------------------------
+print("\n--- Update 2: telefono y correo de Pedro Muñoz (propietario 2) ---");
+
+print("ANTES:");
+printjson(db.propietarios.findOne({ _id: 2 }, { nombre: 1, apellido: 1, telefono: 1, correo: 1 }));
+
+db.propietarios.updateOne({ _id: 2 },{ $set: { telefono: "+56999887766", correo: "pedro.munoz.nuevo@gmail.com"}});
+
+print("DESPUES:");
+printjson(db.propietarios.findOne({ _id: 2 }, { nombre: 1, apellido: 1, telefono: 1, correo: 1 }));
+
+
+// ------------------------------------------------------------
+// Update 3/3: accidente en la clinica (codigo negro), todos los animales en la veterinaria pasan de Hospitalizado a Fallecido
+// ------------------------------------------------------------
+print("\n--- Update 3: mascotas hospitalizadas pasan a FALLECIDO ---");
+
+print("ANTES (mascotas HOSPITALIZADO y FALLECIDO):");
+printjson(db.mascotas.find({estado:{$in: ["HOSPITALIZADO", "FALLECIDO"] } }, { nombre: 1, estado: 1 }).toArray());
+
+db.mascotas.updateMany({estado: "HOSPITALIZADO" },{ $set: { estado: "FALLECIDO"}}); // update aqui
+
+print("DESPUES (mascotas HOSPITALIZADO y FALLECIDO):");
+printjson(db.mascotas.find({estado:{$in: ["HOSPITALIZADO", "FALLECIDO"] } }, { nombre: 1, estado: 1 }).toArray());
