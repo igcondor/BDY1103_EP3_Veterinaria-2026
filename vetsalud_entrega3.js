@@ -278,7 +278,7 @@ printjson(db.mascotas.find().toArray());
 
 // Consulta 2: busca  todas las mascotas  del propietario 4 mostrando solo 
 // id, nombre, especie, peso, estado [projection nomas]
-print("\n--- Consulta 2: Mascotas del propietario 4 (solo nombre y raza) ---");
+print("\n--- Consulta 2: Mascotas del propietario 4 (informacion variada) ---");
 printjson(db.mascotas.find({ id_propietario: 4}, { _id:1, nombre:1, especie:1, peso:1, estado:1 }).toArray());
 
 
@@ -348,7 +348,7 @@ print("DESPUES (mascotas HOSPITALIZADO y FALLECIDO):");
 printjson(db.mascotas.find({estado:{$in: ["HOSPITALIZADO", "FALLECIDO"] } }, { nombre: 1, estado: 1 }).toArray());
 
 // ------------------------------------------------------------
-// Update 4/4: Fonasa cubre mas y los servicios suben 20 mil pesos mas
+// Update 4/4: Los insumos suben; los servicios suben 20 mil pesos mas
 // ------------------------------------------------------------
 print("\n--- Update 4: servicios de mas de 30 mil pesos suben 20 mil pesos mas ---");
 
@@ -367,29 +367,29 @@ printjson(db.servicios.find({ valor: { $gt: 30000 } }, { nombre_servicio: 1, val
 // -------------------------------------------------------
 // Delete 1/2: atencion duplicada por error de ingreso (urgencia update 1 mascota 8 Simba)
 // -------------------------------------------------------
-print("\n--- Delete 1: Ser borra atencion duplicada (mascota 8) ---");
+print("\n--- Delete 1: borra atencion duplicada (mascota 8) ---");
 
-// Se ingresa por error una atencion de mas (id 12)
+// Se ingresa por error una atencion de mas (el sid 12)
 db.atenciones.insertOne({ _id: 11, id_mascota: 8, id_veterinario: 1, fecha: "2026-09-10 20:00",
    motivo: "Urgencia por ingesta descontrolada", 
    diagnostico: "Daño severo en el estómago e intestinos, sospecha de artefacto explosivo", estado: "PENDIENTE" });
-db.atenciones.insertOne({ _id: 12, id_mascota: 8, id_veterinario: 1, fecha: "2026-09-10 20:10",
+db.atenciones.insertOne({ _id: 12, id_mascota: 8, id_veterinario: 1, fecha: "2026-09-10 20:01",
    motivo: "Urgencia por ingesta descontrolada", 
    diagnostico: "Daño severo en el estómago e intestinos, sospecha de artefacto explosivo", estado: "PENDIENTE" });
 
 print("ANTES de eliminar:");
-printjson(db.atenciones.findMany({ id_mascota: 8 }));
+printjson(db.atenciones.find({ id_mascota: 8 }));
 
 db.atenciones.deleteOne({ _id: 12 });
 
-print("DESPUES de eliminar (debe salir null):");
-printjson(db.atenciones.findMany({ id_mascota: 8 }));
+print("DESPUES de eliminar (debe quedar 1 solo registro):");
+printjson(db.atenciones.find({ id_mascota: 8 }));
 
 
 // ------------------------------------------------------------
 // Delete 2/2: Pent testing sistema , emulacion mascutas y test CRUD
 // ------------------------------------------------------------
-print("\n--- Delete 2: mascotas de prueba ---");
+print("\n--- Delete 2: Se borran mascotas de prueba ---");
 
 db.mascotas.insertMany([
   { _id: 998, id_propietario: 998, nombre: "Prueba 1", especie: "PERRO", raza: "Test", sexo: "M", fecha_nacimiento: "2025-01-01", peso: 1, estado: "VIVO", es_prueba: true },
@@ -401,7 +401,7 @@ printjson(db.mascotas.find({ es_prueba: true }).toArray());
 
 db.mascotas.deleteMany({ es_prueba: true });
 
-print("DESPUES de eliminar (debe salir vacio):");
+print("DESPUES de eliminar (debe salir null):");
 printjson(db.mascotas.find({ es_prueba: true }).toArray());
 
 print("\n--- Fin del script VetSalud ---");
