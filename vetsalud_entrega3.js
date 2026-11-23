@@ -378,12 +378,12 @@ db.atenciones.insertOne({ _id: 12, id_mascota: 8, id_veterinario: 1, fecha: "202
    diagnostico: "Daño severo en el estómago e intestinos, sospecha de artefacto explosivo", estado: "PENDIENTE" });
 
 print("ANTES de eliminar:");
-printjson(db.atenciones.find({ id_mascota: 8 }));
+printjson(db.atenciones.find({ id_mascota: 8 }).toArray());
 
 db.atenciones.deleteOne({ _id: 12 });
 
 print("DESPUES de eliminar (debe quedar 1 solo registro):");
-printjson(db.atenciones.find({ id_mascota: 8 }));
+printjson(db.atenciones.find({ id_mascota: 8 }).toArray());
 
 
 // ------------------------------------------------------------
