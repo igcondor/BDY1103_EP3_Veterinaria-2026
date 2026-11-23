@@ -64,7 +64,8 @@ db.especialidades.insertMany([
 // VETERINARIOS
 db.veterinarios.insertOne({
   _id: 1,
-  nombre: "Juan Perez",
+  nombre: "Juan",
+  apellido: "Perez",
   telefono: "+56977221100",
   correo: "vet.juan1@vetsalud.cl",
   id_especialidad: 1
@@ -194,9 +195,9 @@ db.tratamientos.insertMany([
   { _id: 3,  id_atencion: 3,  id_medicamento: 3, dosis: "1 comprimido",      frecuencia: "Cada 12 horas", duracion: "14 dias", observaciones: "Ajustar dosis según evolución de prurito." },
   { _id: 4,  id_atencion: 4,  id_medicamento: 2, dosis: "0.5 ml",            frecuencia: "Cada 24 horas", duracion: "5 dias", observaciones: "Administrar con el alimento." },
   { _id: 5,  id_atencion: 5,  id_medicamento: 4, dosis: "1 comprimido",      frecuencia: "Cada 24 horas", duracion: "7 dias", observaciones: "Reposo estricto durante el tratamiento." },
-  { _id: 6,  id_atencion: 7,  id_medicamento: 1, dosis: "3 gotas por oído",  frecuencia: "Cada 12 horas", duracion: "7 dias", observaciones: "Limpiar secreciones antes de aplicar." },
+  { _id: 6,  id_atencion: 7,  id_medicamento: 5, dosis: "3 gotas",  frecuencia: "Cada 12 horas", duracion: "7 dias", observaciones: "Limpiar secreciones antes de aplicar." },
   { _id: 7,  id_atencion: 8,  id_medicamento: 2, dosis: "1 ml",              frecuencia: "Cada 24 horas", duracion: "5 dias", observaciones: "Evaluar peso semanalmente." },
-  { _id: 8,  id_atencion: 10, id_medicamento: 6, dosis: "Aplicación tópica", frecuencia: "Cada 12 horas", duracion: "10 dias", observaciones: "Uso de cepillo suave." },
+  { _id: 8,  id_atencion: 10, id_medicamento: 6, dosis: "1 comprimido", frecuencia: "Cada 12 horas", duracion: "10 dias", observaciones: "Uso de cepillo suave." },
   { _id: 9,  id_atencion: 6,  id_medicamento: 5, dosis: "2 gotas",           frecuencia: "Cada 12 horas", duracion: "3 dias", observaciones: "Analgesia preventiva post-vacunación." },
   { _id: 10, id_atencion: 9,  id_medicamento: 8, dosis: "1/2 comprimido",    frecuencia: "Cada 24 horas", duracion: "5 dias", observaciones: "Profilaxis antibiótica post-limpieza de sacos." }
 ]);
@@ -254,15 +255,15 @@ db.trabajadores.insertOne({
 });
 
 db.trabajadores.insertMany([
-  { _id: 2, nombre: "Pedro",    apellido: "Diaz",       cargo: "Veterinario",                 sueldo: 1250000},
-  { _id: 3, nombre: "Jorge",    apellido: "Rodriguez",  cargo: "Veterinario",                 sueldo: 1200000},
-  { _id: 4, nombre: "Marcela",  apellido: "Soto",       cargo: "Veterinario General",         sueldo: 1150000},
+  { _id: 2, nombre: "Pedro",    apellido: "Diaz",       cargo: "Aprendiz Veterinario",        sueldo: 1250000},
+  { _id: 3, nombre: "Jorge",    apellido: "Rodriguez",  cargo: "Asistente Veterinario",       sueldo: 1200000},
+  { _id: 4, nombre: "Marcela",  apellido: "Soto",       cargo: "Aseo",                        sueldo: 1150000},
   { _id: 5, nombre: "Carlos",   apellido: "Silva",      cargo: "Cirujano Jefe",               sueldo: 1800000},
   { _id: 6, nombre: "Andres",   apellido: "Martinez",   cargo: "Especialista Dermatología",   sueldo: 1600000},
   { _id: 7, nombre: "Rodrigo",  apellido: "Sepulveda",  cargo: "Especialista Cardiología",    sueldo: 1700000},
   { _id: 8, nombre: "Manuel",   apellido: "Morales",    cargo: "Especialista Oncología",      sueldo: 1750000},
-  { _id: 9, nombre: "Camila",   apellido: "Fernandez",  cargo: "Recepcionista",               sueldo: 550000 },
-  { _id: 10, nombre: "Diego",   apellido: "Araya",      cargo: "Asistente Veterinario",       sueldo: 650000 },
+  { _id: 9, nombre: "Felipe",   apellido: "Gonzales",  cargo: "Recepcionista",                sueldo: 550000 },
+  { _id: 10, nombre: "Sergio",   apellido: "Moles",      cargo: "Asistente Veterinario",      sueldo: 650000 },
   { _id: 11, nombre: "Sofia",   apellido: "Castro",     cargo: "Administrador de Clínica",    sueldo: 1400000},
   { _id: 12, nombre: "Gabriel", apellido: "Navarro",    cargo: "Peluquero Canino / Técnico",  sueldo: 600000 }
 ]);
