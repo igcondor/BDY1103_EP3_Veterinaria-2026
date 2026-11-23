@@ -370,7 +370,7 @@ printjson(db.servicios.find({ valor: { $gt: 30000 } }, { nombre_servicio: 1, val
 // -------------------------------------------------------
 print("\n--- Delete 1: borra atencion duplicada (mascota 8) ---");
 
-// Se ingresa por error una atencion de mas (el sid 12)
+// Se ingresa por error una atencion de mas (el id 12)
 db.atenciones.insertOne({ _id: 11, id_mascota: 8, id_veterinario: 1, fecha: "2026-09-10 20:00",
    motivo: "Urgencia por ingesta descontrolada", 
    diagnostico: "Daño severo en el estómago e intestinos, sospecha de artefacto explosivo", estado: "PENDIENTE" });
@@ -388,7 +388,7 @@ printjson(db.atenciones.find({ id_mascota: 8 }).toArray());
 
 
 // ------------------------------------------------------------
-// Delete 2/2: Pent testing sistema , emulacion mascutas y test CRUD
+// Delete 2/2: Pentesting sistema , emulacion mascotas y test CRUD
 // ------------------------------------------------------------
 print("\n--- Delete 2: Se borran mascotas de prueba ---");
 
